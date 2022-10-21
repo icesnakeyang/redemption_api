@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class Form1Request {
-    private String name;
+    private String userName;
     private String icNumber1;
     private String icNumber2;
     private String icNumber3;

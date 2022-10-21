@@ -21,12 +21,32 @@ public class Form1Controller {
     }
 
     @ResponseBody
+    @GetMapping("/test1")
+    public Response test1() {
+        Response response = new Response();
+        Map in = new HashMap();
+        try {
+            Map out=new HashMap();
+            out.put("result", "tes ok");
+            response.setData(out);
+        } catch (Exception ex) {
+            try {
+                response.setCode(Integer.parseInt(ex.getMessage()));
+            } catch (Exception ex2) {
+                response.setCode(10001);
+                log.error("test1 error:" + ex.getMessage());
+            }
+        }
+        return response;
+    }
+
+    @ResponseBody
     @PostMapping("/saveForm1")
     public Response saveForm1(@RequestBody Form1Request request) {
         Response response = new Response();
         Map in = new HashMap();
         try {
-            in.put("name", request.getName());
+            in.put("userName", request.getUserName());
             in.put("icNumber1", request.getIcNumber1());
             in.put("icNumber2", request.getIcNumber2());
             in.put("icNumber3", request.getIcNumber3());

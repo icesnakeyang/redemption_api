@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.redemption_api.meta.user.dao.UserBaseDao">
+    <!--配置表和对象的字段映射 -->
+    <resultMap id="userMap" type="cc.redemption_api.meta.user.entity.UserView">
+        <result property="userId" column="user_id"/>
+        <result property="recipientId" column="recipient_id"/>
+        <result property="triggerId" column="trigger_id"/>
+        <result property="noteId" column="note_id"/>
+        <result property="triggerTime" column="trigger_time"/>
+        <result property="actTimes" column="act_times"/>
+        <result property="toEmail" column="to_email"/>
+        <result property="triggerType" column="trigger_type"/>
+        <result property="fromName" column="from_name"/>
+        <result property="toUserId" column="to_user_id"/>
+        <result property="refPid" column="ref_pid"/>
+    </resultMap>
+
+    <insert id="createUserBase" parameterType="cc.redemption_api.meta.user.entity.UserBase">
+        insert into user_base
+        (user_id, user_name, phone, address,
+         postcode, email,
+         ic_number, ic_1, ic_2, ic_3,
+         create_time, phone1, phone2)
+        values (#{userId}, #{userName}, #{phone},
+                #{address}, #{postcode}, #{email}, #{ICNumber},
+                #{ic1}, #{ic2}, #{ic3}, #{createTime}, #{phone1}, #{phone2})
+    </insert>
+
+    <select id="getUserBase" parameterType="map" resultMap="userMap">
+        select * from user_base
+        where 1=1
+        <choose>
+            <when test="phone!=null">
+                and phone=#{phone}
+            </when>
+        </choose>
+    </select>
+</mapper>

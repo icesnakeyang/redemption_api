@@ -5,8 +5,11 @@ import cc.redemption_api.meta.user.entity.UserBase;
 import cc.redemption_api.middle.IUserMiddle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.Map;
+import java.util.Random;
 
 @Service
 public class Form1BService implements IForm1BService {
@@ -16,9 +19,10 @@ public class Form1BService implements IForm1BService {
         this.iUserMiddle = iUserMiddle;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveForm1(Map in) throws Exception {
-        String name = in.get("name").toString();
+        String userName = in.get("userName").toString();
         String icNumber1 = in.get("icNumber1").toString();
         String icNumber2 = in.get("icNumber2").toString();
         String icNumber3 = in.get("icNumber3").toString();
@@ -37,11 +41,13 @@ public class Form1BService implements IForm1BService {
         userBase.setIc1(icNumber1);
         userBase.setIc2(icNumber2);
         userBase.setIc3(icNumber3);
-        userBase.setName(name);
+        userBase.setUserName(userName);
         userBase.setEmail(email);
-        userBase.setPostCode(postcode);
+        userBase.setPostcode(postcode);
         userBase.setPhone(phoneF1 + phoneF2);
         userBase.setPhone1(phoneF1);
         userBase.setPhone2(phoneF2);
+        userBase.setCreateTime(new Date());
+        iUserMiddle.createUserBase(userBase);
     }
 }

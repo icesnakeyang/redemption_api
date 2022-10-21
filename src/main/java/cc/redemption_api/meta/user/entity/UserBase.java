@@ -9,9 +9,9 @@ public class UserBase {
     private Integer ids;
     private String userId;
     private String phone;
-    private String name;
+    private String userName;
     private String address;
-    private String postCode;
+    private String postcode;
     private String email;
     private String ICNumber;
     private String ic1;
