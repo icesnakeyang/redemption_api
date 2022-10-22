@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.redemption_api.meta.admin.dao.AdminDao">
+    <!--配置表和对象的字段映射 -->
+    <resultMap id="adminMap" type="cc.redemption_api.meta.admin.entity.AdminView">
+        <result property="adminId" column="admin_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="loginName" column="login_name"/>
+        <result property="loginPassword" column="login_password"/>
+        <result property="roleType" column="role_type"/>
+        <result property="tokenTime" column="token_time"/>
+    </resultMap>
+
+    <!--创建一个管理员-->
+    <insert id="createAdmin"
+            parameterType="cc.redemption_api.meta.admin.entity.Admin">
+        insert into admin
+        (admin_id, create_time, login_name,
+         login_password, role_type,
+         token, token_time)
+        values (#{adminId}, #{createTime}, #{loginName},
+                #{loginPassword}, #{roleType},
+                #{token}, #{tokenTime})
+    </insert>
+
+    <!--读取一个admin-->
+    <select id="getAdmin" parameterType="map" resultMap="adminMap">
+        select * from admin
+        where 1=1
+        <choose>
+            <when test="loginName!=null">
+                and login_name=#{loginName}
+            </when>
+        </choose>
+        <choose>
+            <when test="token!=null">
+                and token=#{token}
+            </when>
+        </choose>
+    </select>
+
+    <update id="updateAdmin" parameterType="map">
+        update admin
+        <set>
+            <if test="token!=null">
+                token=#{token},
+                token_time=#{tokenTime},
+            </if>
+            <if test="loginPassword!=null">
+                login_password=#{loginPassword}
+            </if>
+        </set>
+        where admin_id=#{adminId}
+    </update>
+</mapper>
