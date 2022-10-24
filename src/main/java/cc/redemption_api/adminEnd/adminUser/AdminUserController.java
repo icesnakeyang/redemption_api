@@ -1,6 +1,6 @@
 package cc.redemption_api.adminEnd.adminUser;
 
-import cc.redemption_api.business.admin.IAdminUserBService;
+import cc.redemption_api.business.admin.IAdminBService;
 import cc.redemption_api.framework.vo.AdminRequest;
 import cc.redemption_api.framework.vo.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -15,10 +15,10 @@ import java.util.Map;
 @RestController
 @RequestMapping("/redemption_api/admin/admin")
 public class AdminUserController {
-    private final IAdminUserBService iAdminUserBService;
+    private final IAdminBService iAdminBService;
 
-    public AdminUserController(IAdminUserBService iAdminUserBService) {
-        this.iAdminUserBService = iAdminUserBService;
+    public AdminUserController(IAdminBService iAdminBService) {
+        this.iAdminBService = iAdminBService;
     }
 
     /**
@@ -37,7 +37,7 @@ public class AdminUserController {
             in.put("password", request.getPassword());
             in.put("roleType", request.getRoleType());
 
-            iAdminUserBService.createRootAdmin(in);
+            iAdminBService.createRootAdmin(in);
         } catch (Exception ex) {
             try {
                 response.setCode(Integer.parseInt(ex.getMessage()));
@@ -65,7 +65,7 @@ public class AdminUserController {
             in.put("loginName", request.getLoginName());
             in.put("password", request.getPassword());
 
-            Map out = iAdminUserBService.adminLogin(in);
+            Map out = iAdminBService.adminLogin(in);
             response.setData(out);
         } catch (Exception ex) {
             try {
@@ -93,7 +93,7 @@ public class AdminUserController {
             String token = httpServletRequest.getHeader("token");
             in.put("token", token);
 
-            Map out = iAdminUserBService.adminLoginByToken(in);
+            Map out = iAdminBService.adminLoginByToken(in);
             response.setData(out);
         } catch (Exception ex) {
             try {

@@ -6,6 +6,7 @@ import cc.redemption_api.meta.sms.SMSLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
@@ -56,7 +57,7 @@ public class SMSBService implements ISMSBService {
         /**
          * 发送短信
          */
-        sendSMS(phone, codeStr);
+//        sendSMS(phone, codeStr);
 
         /**
          * 把验证码保存到数据库
@@ -68,6 +69,7 @@ public class SMSBService implements ISMSBService {
         ismsService.createSMSLog(smsLog);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void verifySMSCode(Map in) throws Exception {
         String phone = in.get("phone").toString();
@@ -91,8 +93,14 @@ public class SMSBService implements ISMSBService {
         long diff = (currentTime - theTime) / 1000 / 60;
 
         if (diff > 5) {
+            //超过5分钟了
             throw new Exception("10071");
         }
+
+        /**
+         * 验证成功，删除验收短信
+         */
+        ismsService.deleteSMSLog(phone);
     }
 
     void sendSMS(String phone, String codeStr) throws Exception {
@@ -102,10 +110,10 @@ public class SMSBService implements ISMSBService {
         params.put("message", codeStr);
         String url = "https://sms1.commpeak.com:8002/api?username=useruser2&password=43420024420&ani=123&dnis=60149156294&message=abcd&command=submit&longMessageMode=split";
 
-        HttpHeaders headers=new HttpHeaders();
+        HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> requestEntity=new HttpEntity<>(null, headers);
-        ResponseEntity<String> resEntity=restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
+        HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
+        ResponseEntity<String> resEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
 //        String restultMapStr = restTemplate.getForObject(url, String.class);
 //        JSONPObject jasonObject = new JSONPObject(restultMapStr);
         Map out = new HashMap();

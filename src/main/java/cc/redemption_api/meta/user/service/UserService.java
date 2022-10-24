@@ -6,6 +6,7 @@ import cc.redemption_api.meta.user.entity.UserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 @Service
@@ -25,5 +26,17 @@ public class UserService implements IUserService {
     public UserView getUserBase(Map qIn) throws Exception {
         UserView userView = userBaseDao.getUserBase(qIn);
         return userView;
+    }
+
+    @Override
+    public ArrayList<UserView> listUserBase(Map qIn) throws Exception {
+        ArrayList<UserView> userViews = userBaseDao.listUserBase(qIn);
+        return userViews;
+    }
+
+    @Override
+    public Integer totalUserBase(Map qIn) throws Exception {
+        Integer total = userBaseDao.totalUserBase(qIn);
+        return total;
     }
 }
