@@ -3,6 +3,9 @@ package cc.redemption_api.framework.common.sms;
 import cc.redemption_api.framework.tools.GogoTools;
 import cc.redemption_api.meta.sms.ISMSService;
 import cc.redemption_api.meta.sms.SMSLog;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -30,6 +33,7 @@ public class SMSBService implements ISMSBService {
         if (phone == null) {
             throw new Exception("10069");
         }
+        phone = "6" + phone;
         /**
          * 读取数据库，看当前是否有有效的验证码，如果有，且离上次发送不到1分钟，则暂停发送
          */
@@ -57,7 +61,8 @@ public class SMSBService implements ISMSBService {
         /**
          * 发送短信
          */
-//        sendSMS(phone, codeStr);
+
+        sendSMS(phone, codeStr);
 
         /**
          * 把验证码保存到数据库
@@ -104,20 +109,21 @@ public class SMSBService implements ISMSBService {
     }
 
     void sendSMS(String phone, String codeStr) throws Exception {
-        String url2 = "https://sms1.commpeak.com:8002/api" +
-                "?username=useruser2&password=43420024420&ani=123&dnis=60149156294&message=" + codeStr + "&command=submit&longMessageMode=split";
         Map<String, String> params = new HashMap<>();
         params.put("message", codeStr);
-        String url = "https://sms1.commpeak.com:8002/api?username=useruser2&password=43420024420&ani=123&dnis=60149156294&message=abcd&command=submit&longMessageMode=split";
+        String url = "https://sms1.commpeak.com:8002/api?username=useruser&password=43420024420&ani=123&dnis=" + phone + "&message=Verification code = " + codeStr + "&command=submit&longMessageMode=split";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
         ResponseEntity<String> resEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
-//        String restultMapStr = restTemplate.getForObject(url, String.class);
-//        JSONPObject jasonObject = new JSONPObject(restultMapStr);
-        Map out = new HashMap();
-
+        String restultMapStr = restTemplate.getForObject(url, String.class);
+        JSONObject object = JSON.parseObject(restultMapStr);
+        String result = (String) object.get("message_id");
+        if (result == null) {
+            //send sms error
+            throw new Exception("10005");
+        }
     }
 
     void sendSMS2(String phone, String codeStr) throws Exception {

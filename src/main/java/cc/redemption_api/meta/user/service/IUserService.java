@@ -11,6 +11,7 @@ public interface IUserService {
 
     /**
      * @param qIn phone
+     *            icNumber
      * @return
      */
     UserView getUserBase(Map qIn) throws Exception;

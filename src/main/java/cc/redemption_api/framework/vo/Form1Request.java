@@ -2,6 +2,8 @@ package cc.redemption_api.framework.vo;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+
 @Data
 public class Form1Request {
     private String userName;
@@ -13,4 +15,5 @@ public class Form1Request {
     private String address;
     private String postcode;
     private String email;
+    private ArrayList surveys;
 }

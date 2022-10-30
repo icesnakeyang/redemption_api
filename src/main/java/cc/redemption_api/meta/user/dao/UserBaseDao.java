@@ -13,10 +13,12 @@ public interface UserBaseDao {
 
     /**
      * @param qIn phone
+     *            icNumber
      * @return
      */
     UserView getUserBase(Map qIn);
 
     ArrayList<UserView> listUserBase(Map qIn);
+
     Integer totalUserBase(Map qIn);
 }

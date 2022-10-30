@@ -22,8 +22,14 @@ public class UserMiddle implements IUserMiddle {
     }
 
     @Override
-    public UserView getUserBase(Map qIn) throws Exception {
+    public UserView getUserBase(Map qIn, Boolean returnNull) throws Exception {
         UserView userView = iUserService.getUserBase(qIn);
+        if(userView==null){
+            if(returnNull){
+                return null;
+            }
+            throw new Exception("10006");
+        }
         return userView;
     }
 

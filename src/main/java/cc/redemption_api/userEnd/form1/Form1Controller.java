@@ -26,7 +26,7 @@ public class Form1Controller {
         Response response = new Response();
         Map in = new HashMap();
         try {
-            Map out=new HashMap();
+            Map out = new HashMap();
             out.put("result", "tes ok");
             response.setData(out);
         } catch (Exception ex) {
@@ -55,6 +55,7 @@ public class Form1Controller {
             in.put("address", request.getAddress());
             in.put("postcode", request.getPostcode());
             in.put("email", request.getEmail());
+            in.put("surveys", request.getSurveys());
 
             iForm1BService.saveForm1(in);
         } catch (Exception ex) {
@@ -63,6 +64,30 @@ public class Form1Controller {
             } catch (Exception ex2) {
                 response.setCode(10001);
                 log.error("saveForm1 error:" + ex.getMessage());
+            }
+        }
+        return response;
+    }
+
+    /**
+     * 读取要调查的问题列表
+     *
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/listSurveyLib")
+    public Response listSurveyLib() {
+        Response response = new Response();
+        Map in = new HashMap();
+        try {
+            Map out = iForm1BService.listSurveyLib(in);
+            response.setData(out);
+        } catch (Exception ex) {
+            try {
+                response.setCode(Integer.parseInt(ex.getMessage()));
+            } catch (Exception ex2) {
+                response.setCode(10001);
+                log.error("listSurveyLib error:" + ex.getMessage());
             }
         }
         return response;

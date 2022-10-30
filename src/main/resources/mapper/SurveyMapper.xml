@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.redemption_api.meta.survey.dao.SurveyDao">
+
+    <!--配置表和对象的字段映射 -->
+    <resultMap id="surveyMap" type="cc.redemption_api.meta.survey.entity.SurveyView">
+        <result property="questionId" column="question_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="userId" column="user_id"/>
+        <result property="qTitle" column="q_title"/>
+        <result property="qContent" column="q_content"/>
+        <result property="answerType" column="answer_type"/>
+    </resultMap>
+
+    <!--创建一个survey问题库-->
+    <insert id="createSurveyLib"
+            parameterType="cc.redemption_api.meta.survey.entity.SurveyLib">
+        insert into survey_lib
+        (question_id, q_title, q_content, answer_type, create_time,
+         status)
+        values (#{questionId}, #{qTitle}, #{qContent},
+                #{answerType}, #{createTime},
+                #{status})
+    </insert>
+
+    <!--读取问题库列表-->
+    <select id="listSurveyLib" parameterType="map" resultMap="surveyMap">
+        select * from survey_lib
+        where 1=1
+        <choose>
+            <when test="keyTitle!=null">
+                and q_title like concat('%', #{keyTitle}, '%')
+            </when>
+        </choose>
+        order by ids
+        <choose>
+            <when test="offset!=null">
+                limit #{size} offset #{offset}
+            </when>
+        </choose>
+    </select>
+
+    <select id="totalSurveyLib" parameterType="map" resultType="java.lang.Integer">
+        select count(*) as total from survey_lib
+        where 1=1
+        <choose>
+            <when test="keyTitle!=null">
+                and q_title like concat('%', #{keyTitle}, '%')
+            </when>
+        </choose>
+    </select>
+
+    <!--读取一条问题详情-->
+    <select id="getSurveyLib" parameterType="java.lang.String" resultMap="surveyMap">
+        select *
+        from survey_lib
+        where question_id = #{questionId}
+    </select>
+
+    <!--修改问题库问题-->
+    <update id="updateSurveyLib" parameterType="map">
+        update survey_lib
+        <set>
+            <if test="qTitle!=null">
+                q_title=#{qTitle},
+            </if>
+            <if test="qContent!=null">
+                q_content=#{qContent},
+            </if>
+            <if test="answerType!=null">
+                answer_type=#{answerType}
+            </if>
+        </set>
+        where question_id=#{questionId}
+    </update>
+
+    <!--物理删除问题库里的问题-->
+    <delete id="deleteSurveyLib" parameterType="java.lang.String">
+        delete
+        from survey_lib
+        where question_id = #{questionId}
+    </delete>
+
+    <!--创建用户回答记录-->
+    <insert id="createSurveyAnswer" parameterType="cc.redemption_api.meta.survey.entity.SurveyAnswer">
+        insert into survey_answer
+            (question_id, user_id, create_time, answer)
+        values (#{questionId}, #{userId}, #{createTime}, #{answer})
+    </insert>
+</mapper>
