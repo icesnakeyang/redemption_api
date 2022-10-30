@@ -80,6 +80,7 @@ public class SMSBService implements ISMSBService {
         String phone = in.get("phone").toString();
         String code = in.get("code").toString();
 
+        phone = "6" + phone;
         SMSLog smsLog = ismsService.getSMSLog(phone);
         if (smsLog == null) {
             throw new Exception("10074");
