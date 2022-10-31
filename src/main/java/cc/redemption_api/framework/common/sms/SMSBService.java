@@ -114,12 +114,12 @@ public class SMSBService implements ISMSBService {
     void sendSMS(String phone, String codeStr) throws Exception {
         Map<String, String> params = new HashMap<>();
         params.put("message", codeStr);
-        String url = "https://sms1.commpeak.com:8002/api?username=useruser&password=43420024420&ani=123&dnis=" + phone + "&message=Verification code = " + codeStr + "&command=submit&longMessageMode=split";
+        String url = "https://sms1.commpeak.com:8002/api?username=useruser2&password=43420024420&ani=60123456789&dnis=" + phone + "&message=Verification code = " + codeStr + "&command=submit&longMessageMode=split";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
-        ResponseEntity<String> resEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
+//        HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
+//        ResponseEntity<String> resEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
         String restultMapStr = restTemplate.getForObject(url, String.class);
         JSONObject object = JSON.parseObject(restultMapStr);
         String result = (String) object.get("message_id");
