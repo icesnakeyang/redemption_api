@@ -6,6 +6,7 @@ import cc.redemption_api.meta.sms.SMSLog;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+@Slf4j
 @Service
 public class SMSBService implements ISMSBService {
     private final ISMSService ismsService;
@@ -123,7 +125,10 @@ public class SMSBService implements ISMSBService {
         String result = (String) object.get("message_id");
         if (result == null) {
             //send sms error
+            log.error("send sms error:" + url);
             throw new Exception("10005");
+        } else {
+            log.info("send sms success:" + phone + "/" + codeStr);
         }
     }
 
