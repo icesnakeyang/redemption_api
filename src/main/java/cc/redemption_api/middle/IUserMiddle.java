@@ -12,6 +12,7 @@ public interface IUserMiddle {
     /**
      * @param in phone
      *           icNumber
+     *           userId
      * @return
      */
     UserView getUserBase(Map in, Boolean returnNull) throws Exception;

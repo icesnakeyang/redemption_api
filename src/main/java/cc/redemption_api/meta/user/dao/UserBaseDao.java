@@ -14,6 +14,7 @@ public interface UserBaseDao {
     /**
      * @param qIn phone
      *            icNumber
+     *            userId
      * @return
      */
     UserView getUserBase(Map qIn);

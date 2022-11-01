@@ -58,4 +58,22 @@ public interface ISurveyService {
      * @param surveyAnswer
      */
     void createSurveyAnswer(SurveyAnswer surveyAnswer) throws Exception;
+
+    /**
+     * 查询用户回答记录列表
+     *
+     * @param qIn userId
+     *            answerType
+     *            answer
+     *            questionId
+     * @return
+     */
+    ArrayList<SurveyView> listSurveyAnswer(Map qIn) throws Exception;
+    Integer totalSurveyAnswer(Map qIn) throws Exception;
+
+    /**
+     * 统计所有是非选择题的答案汇总
+     *
+     */
+    ArrayList<Map> statisticSurveyAnswer1() throws Exception;
 }

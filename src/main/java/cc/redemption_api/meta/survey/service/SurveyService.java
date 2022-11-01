@@ -56,4 +56,22 @@ public class SurveyService implements ISurveyService {
     public void createSurveyAnswer(SurveyAnswer surveyAnswer) throws Exception {
         surveyDao.createSurveyAnswer(surveyAnswer);
     }
+
+    @Override
+    public ArrayList<SurveyView> listSurveyAnswer(Map qIn) throws Exception {
+        ArrayList<SurveyView> surveyViews = surveyDao.listSurveyAnswer(qIn);
+        return surveyViews;
+    }
+
+    @Override
+    public Integer totalSurveyAnswer(Map qIn) throws Exception {
+        Integer total = surveyDao.totalSurveyAnswer(qIn);
+        return total;
+    }
+
+    @Override
+    public ArrayList<Map> statisticSurveyAnswer1() throws Exception {
+        ArrayList<Map> surveyViews = surveyDao.statisticSurveyAnswer1();
+        return surveyViews;
+    }
 }

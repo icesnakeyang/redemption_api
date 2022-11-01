@@ -36,6 +36,11 @@
                 and ic_number=#{icNumber}
             </when>
         </choose>
+        <choose>
+            <when test="userId!=null">
+                and user_id=#{userId}
+            </when>
+        </choose>
     </select>
 
     <select id="listUserBase" parameterType="map" resultMap="userMap">

@@ -50,4 +50,61 @@ public class UserController {
         }
         return response;
     }
+
+    /**
+     * @param request
+     * @param httpServletRequest
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/getUserDetail")
+    public Response getUserDetail(@RequestBody AdminUserRequest request,
+                             HttpServletRequest httpServletRequest) {
+        Response response = new Response();
+        Map in = new HashMap();
+        try {
+            String token = httpServletRequest.getHeader("token");
+            in.put("token", token);
+            in.put("userId", request.getUserId());
+
+            Map out = iAdminUserBService.getUserDetail(in);
+            response.setData(out);
+        } catch (Exception ex) {
+            try {
+                response.setCode(Integer.parseInt(ex.getMessage()));
+            } catch (Exception ex2) {
+                response.setCode(10001);
+                log.error("Admin getUserDetail error:" + ex.getMessage());
+            }
+        }
+        return response;
+    }
+
+    /**
+     * @param httpServletRequest
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/loadUserStatistic")
+    public Response loadUserStatistic(HttpServletRequest httpServletRequest) {
+        Response response = new Response();
+        Map in = new HashMap();
+        try {
+            String token = httpServletRequest.getHeader("token");
+            in.put("token", token);
+
+            Map out = iAdminUserBService.loadUserStatistic(in);
+            response.setData(out);
+        } catch (Exception ex) {
+            try {
+                response.setCode(Integer.parseInt(ex.getMessage()));
+            } catch (Exception ex2) {
+                response.setCode(10001);
+                log.error("Admin loadUserStatistic error:" + ex.getMessage());
+            }
+        }
+        return response;
+    }
+
+
 }

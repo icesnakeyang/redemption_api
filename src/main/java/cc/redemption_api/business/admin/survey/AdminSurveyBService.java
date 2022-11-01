@@ -2,6 +2,7 @@ package cc.redemption_api.business.admin.survey;
 
 import cc.redemption_api.framework.tools.GogoTools;
 import cc.redemption_api.meta.admin.entity.AdminView;
+import cc.redemption_api.meta.survey.entity.SurveyAnswer;
 import cc.redemption_api.meta.survey.entity.SurveyLib;
 import cc.redemption_api.meta.survey.entity.SurveyView;
 import cc.redemption_api.middle.IAdminMiddle;
@@ -66,5 +67,20 @@ public class AdminSurveyBService implements IAdminSurveyBService {
         surveyLib.setQuestionId(GogoTools.UUID32());
         surveyLib.setStatus("ACTIVE");
         iSurveyMiddle.createSurveyLib(surveyLib);
+    }
+
+    @Override
+    public Map statisticSurvey1(Map in) throws Exception {
+        String token = in.get("token").toString();
+
+        Map qIn = new HashMap();
+        qIn.put("token", token);
+        AdminView adminView = iAdminMiddle.getAdmin(qIn, false);
+
+        ArrayList<Map> surveyViews = iSurveyMiddle.statisticSurveyAnswer1();
+
+        Map out = new HashMap();
+        out.put("statisticSurvey1", surveyViews);
+        return out;
     }
 }

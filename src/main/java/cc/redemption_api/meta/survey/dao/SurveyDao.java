@@ -60,4 +60,23 @@ public interface SurveyDao {
      * @param surveyAnswer
      */
     void createSurveyAnswer(SurveyAnswer surveyAnswer);
+
+    /**
+     * 查询用户回答记录列表
+     *
+     * @param qIn userId
+     *            answerType
+     *            answer
+     *            questionId
+     * @return
+     */
+    ArrayList<SurveyView> listSurveyAnswer(Map qIn);
+
+    Integer totalSurveyAnswer(Map qIn);
+
+
+    /**
+     * 统计所有是非选择题的答案汇总
+     */
+    ArrayList<Map> statisticSurveyAnswer1();
 }

@@ -55,4 +55,22 @@ public class SurveyMiddle implements ISurveyMiddle {
     public void createSurveyAnswer(SurveyAnswer surveyAnswer) throws Exception {
         iSurveyService.createSurveyAnswer(surveyAnswer);
     }
+
+    @Override
+    public ArrayList<SurveyView> listSurveyAnswer(Map qIn) throws Exception {
+        ArrayList<SurveyView> surveyViews = iSurveyService.listSurveyAnswer(qIn);
+        return surveyViews;
+    }
+
+    @Override
+    public Integer totalSurveyAnswer(Map qIn) throws Exception {
+        Integer total = iSurveyService.totalSurveyAnswer(qIn);
+        return total;
+    }
+
+    @Override
+    public ArrayList<Map> statisticSurveyAnswer1() throws Exception {
+        ArrayList<Map> surveyViews = iSurveyService.statisticSurveyAnswer1();
+        return surveyViews;
+    }
 }

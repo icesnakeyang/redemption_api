@@ -15,4 +15,5 @@ public class SurveyView {
     private String qContent;
     private String answerType;
     private String status;
+    private Integer total;
 }

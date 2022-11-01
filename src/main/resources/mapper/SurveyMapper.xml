@@ -87,4 +87,80 @@
             (question_id, user_id, create_time, answer)
         values (#{questionId}, #{userId}, #{createTime}, #{answer})
     </insert>
+
+    <select id="listSurveyAnswer" parameterType="map" resultMap="surveyMap">
+        select sa.ids,
+        sa.question_id,
+        user_id,
+        sa.create_time,
+        answer,
+        q_title,
+        q_content,
+        answer_type,
+        status
+        from survey_answer sa
+        left join survey_lib sl on sa.question_id = sl.question_id
+        where 1 = 1
+        <choose>
+            <when test="userId!=null">
+                and user_id = #{userId}
+            </when>
+        </choose>
+        <choose>
+            <when test="answerType!=null">
+                and answer_type = #{answerType}
+            </when>
+        </choose>
+        <choose>
+            <when test="answer!=null">
+                and answer = #{answer}
+            </when>
+        </choose>
+        <choose>
+            <when test="questionId!=null">
+                and sa.question_id = #{questionId}
+            </when>
+        </choose>
+    </select>
+
+    <select id="totalSurveyAnswer" parameterType="map" resultType="java.lang.Integer">
+        select count(sa.ids) as total
+        from survey_answer sa
+        left join survey_lib sl on sa.question_id = sl.question_id
+        where 1 = 1
+        <choose>
+            <when test="userId!=null">
+                and user_id = #{userId}
+            </when>
+        </choose>
+        <choose>
+            <when test="answerType!=null">
+                and answer_type = #{answerType}
+            </when>
+        </choose>
+        <choose>
+            <when test="answer!=null">
+                and answer = #{answer}
+            </when>
+        </choose>
+        <choose>
+            <when test="questionId!=null">
+                and sa.question_id = #{questionId}
+            </when>
+        </choose>
+    </select>
+
+    <!--统计所有是非选择题的答案汇总-->
+    <select id="statisticSurveyAnswer1" resultType="map">
+        select count(user_id)                                    as usertoal,
+               count(case when answer = 'true' then user_id end) as yes,
+               count(case when sa.answer = 'false' then sa.user_id end) as no,
+       min(q_title)                                             as q_title,
+       min(q_content)                                           as q_content
+        from survey_answer sa
+            left join survey_lib sl
+        on sl.question_id = sa.question_id
+        where answer_type = 'BOOLEAN'
+        group by sa.question_id
+    </select>
 </mapper>

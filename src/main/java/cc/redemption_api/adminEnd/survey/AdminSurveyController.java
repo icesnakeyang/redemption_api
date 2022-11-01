@@ -83,4 +83,33 @@ public class AdminSurveyController {
         }
         return response;
     }
+
+    /**
+     * 管理员统计是非问答题的用户回答汇总情况
+     *
+     * @param httpServletRequest
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/statisticSurvey1")
+    public Response statisticSurvey1(HttpServletRequest httpServletRequest) {
+        Response response = new Response();
+        Map in = new HashMap();
+        try {
+            String token = httpServletRequest.getHeader("token");
+            in.put("token", token);
+
+            Map out = iAdminSurveyBService.statisticSurvey1(in);
+            response.setData(out);
+        } catch (Exception ex) {
+            try {
+                response.setCode(Integer.parseInt(ex.getMessage()));
+            } catch (Exception ex2) {
+                response.setCode(10001);
+                log.error("Admin statisticSurvey1 error:" + ex.getMessage());
+            }
+        }
+        return response;
+    }
+
 }
