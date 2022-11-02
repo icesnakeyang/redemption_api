@@ -4,6 +4,7 @@ import cc.redemption_api.meta.admin.entity.Admin;
 import cc.redemption_api.meta.admin.entity.AdminView;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 @Mapper
@@ -27,4 +28,6 @@ public interface AdminDao {
      *            adminId
      */
     void updateAdmin(Map qIn);
+
+    ArrayList<AdminView> listAdmin(Map qIn);
 }

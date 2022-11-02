@@ -52,4 +52,18 @@
         </set>
         where admin_id=#{adminId}
     </update>
+
+    <select id="listAdmin" parameterType="map" resultMap="adminMap">
+        select ids,
+               admin_id,
+               create_time,
+               login_name,
+               role_type,
+               token_time
+        from admin
+        where 1 = 1
+        order by create_time desc
+            limit #{size}
+        offset #{offset}
+    </select>
 </mapper>

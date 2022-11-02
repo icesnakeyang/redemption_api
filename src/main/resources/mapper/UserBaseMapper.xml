@@ -50,6 +50,11 @@
             <when test="phone!=null"></when>
         </choose>
         order by create_time desc
+        <choose>
+            <when test="offset!=null">
+                limit #{size} offset #{offset}
+            </when>
+        </choose>
     </select>
 
     <select id="totalUserBase" parameterType="map" resultType="java.lang.Integer">

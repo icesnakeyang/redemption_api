@@ -3,17 +3,22 @@ package cc.redemption_api.middle;
 import cc.redemption_api.meta.admin.entity.Admin;
 import cc.redemption_api.meta.admin.entity.AdminView;
 import cc.redemption_api.meta.admin.service.IAdminService;
+import cc.redemption_api.meta.admin.service.IMaintenanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 @Service
 public class AdminMiddle implements IAdminMiddle {
     private final IAdminService iAdminService;
+    private final IMaintenanceService iMaintenanceService;
 
-    public AdminMiddle(IAdminService iAdminService) {
+    public AdminMiddle(IAdminService iAdminService,
+                       IMaintenanceService iMaintenanceService) {
         this.iAdminService = iAdminService;
+        this.iMaintenanceService = iMaintenanceService;
     }
 
     @Override
@@ -39,5 +44,17 @@ public class AdminMiddle implements IAdminMiddle {
     @Override
     public void updateAdmin(Map qIn) throws Exception {
         iAdminService.updateAdmin(qIn);
+    }
+
+    @Override
+    public ArrayList<AdminView> listAdmin(Map qIn) throws Exception {
+        ArrayList<AdminView> adminViews = iAdminService.listAdmin(qIn);
+        return adminViews;
+    }
+
+    @Override
+    public ArrayList<Map> loadExportFile1(Map qIn) throws Exception {
+        ArrayList<Map> out = iMaintenanceService.loadExportFile1(qIn);
+        return out;
     }
 }

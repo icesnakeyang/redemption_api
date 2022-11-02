@@ -5,5 +5,4 @@ import lombok.Data;
 @Data
 public class AdminUserRequest extends Request {
     private String userId;
-
 }

@@ -6,6 +6,7 @@ import cc.redemption_api.meta.admin.entity.AdminView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 @Service
@@ -30,5 +31,11 @@ public class AdminService implements IAdminService {
     @Override
     public void updateAdmin(Map qIn) throws Exception {
         adminDao.updateAdmin(qIn);
+    }
+
+    @Override
+    public ArrayList<AdminView> listAdmin(Map qIn) throws Exception {
+        ArrayList<AdminView> adminViews = adminDao.listAdmin(qIn);
+        return adminViews;
     }
 }

@@ -3,6 +3,7 @@ package cc.redemption_api.middle;
 import cc.redemption_api.meta.admin.entity.Admin;
 import cc.redemption_api.meta.admin.entity.AdminView;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public interface IAdminMiddle {
@@ -25,4 +26,8 @@ public interface IAdminMiddle {
      *            adminId
      */
     void updateAdmin(Map qIn) throws Exception;
+
+    ArrayList<AdminView> listAdmin(Map qIn) throws Exception;
+
+    ArrayList<Map> loadExportFile1(Map qIn) throws Exception;
 }

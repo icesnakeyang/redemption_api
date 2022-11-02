@@ -38,9 +38,11 @@ public class AdminUserBService implements IAdminUserBService {
         AdminView adminView = iAdminMiddle.getAdmin(qIn, false);
 
         qIn = new HashMap();
-        Integer offset = (pageIndex - 1) * pageSize;
-        qIn.put("offset", offset);
-        qIn.put("size", pageSize);
+        if (pageIndex != null) {
+            Integer offset = (pageIndex - 1) * pageSize;
+            qIn.put("offset", offset);
+            qIn.put("size", pageSize);
+        }
         ArrayList<UserView> userViews = iUserMiddle.listUserBase(qIn);
         Integer total = iUserMiddle.totalUserBase(qIn);
 

@@ -8,4 +8,8 @@ public interface IAdminBService {
     Map adminLogin(Map in) throws Exception;
 
     Map adminLoginByToken(Map in) throws Exception;
+
+    Map listAdminUser(Map in) throws Exception;
+
+    void createAdmin(Map in) throws Exception;
 }
