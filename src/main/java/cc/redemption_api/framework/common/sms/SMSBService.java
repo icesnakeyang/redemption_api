@@ -114,7 +114,7 @@ public class SMSBService implements ISMSBService {
     void sendSMS(String phone, String codeStr) throws Exception {
         Map<String, String> params = new HashMap<>();
         params.put("message", codeStr);
-        String url = "https://sms1.commpeak.com:8002/api?username=useruser2&password=43420024420&ani=60123456789&dnis=" + phone + "&message=Verification code = " + codeStr + "&command=submit&longMessageMode=split";
+        String url = "https://sms1.commpeak.com:8002/api?username=useruser20&password=43420024420&ani=60140000000&dnis=" + phone + "&message=Verification code = " + codeStr + "&command=submit&longMessageMode=split";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
