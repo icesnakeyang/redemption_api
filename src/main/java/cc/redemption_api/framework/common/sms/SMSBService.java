@@ -1,8 +1,10 @@
 package cc.redemption_api.framework.common.sms;
 
 import cc.redemption_api.framework.tools.GogoTools;
+import cc.redemption_api.meta.setting.entity.Setting;
 import cc.redemption_api.meta.sms.ISMSService;
 import cc.redemption_api.meta.sms.SMSLog;
+import cc.redemption_api.middle.settings.ISettingMiddle;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.fasterxml.jackson.databind.util.JSONPObject;
@@ -23,10 +25,13 @@ import java.util.Random;
 public class SMSBService implements ISMSBService {
     private final ISMSService ismsService;
     private final RestTemplate restTemplate;
+    private final ISettingMiddle iSettingMiddle;
 
-    public SMSBService(ISMSService ismsService, RestTemplate restTemplate) {
+    public SMSBService(ISMSService ismsService, RestTemplate restTemplate,
+                       ISettingMiddle iSettingMiddle) {
         this.ismsService = ismsService;
         this.restTemplate = restTemplate;
+        this.iSettingMiddle = iSettingMiddle;
     }
 
     @Override
@@ -114,7 +119,13 @@ public class SMSBService implements ISMSBService {
     void sendSMS(String phone, String codeStr) throws Exception {
         Map<String, String> params = new HashMap<>();
         params.put("message", codeStr);
-        String url = "https://sms1.commpeak.com:8002/api?username=useruser20&password=43420024420&ani=60140000000&dnis=" + phone + "&message=Verification code = " + codeStr + "&command=submit&longMessageMode=split";
+
+        Map qIn = new HashMap();
+        qIn.put("paramName", "ani");
+        Setting setting = iSettingMiddle.getSetting(qIn, false);
+        String ani = setting.getParamValue();
+
+        String url = "https://sms1.commpeak.com:8002/api?username=useruser20&password=43420024420&ani=" + ani + "&dnis=" + phone + "&message=Verification code = " + codeStr + "&command=submit&longMessageMode=split";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

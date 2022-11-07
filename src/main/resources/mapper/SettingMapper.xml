@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.redemption_api.meta.setting.dao.SettingDao">
+    <!--配置表和对象的字段映射 -->
+    <resultMap id="settingMap" type="cc.redemption_api.meta.setting.entity.Setting">
+        <result property="adminId" column="admin_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="paramName" column="param_name"/>
+        <result property="paramValue" column="param_value"/>
+        <result property="settingId" column="setting_id"/>
+    </resultMap>
+
+    <!--创建一个参数设置-->
+    <insert id="createSetting"
+            parameterType="cc.redemption_api.meta.setting.entity.Setting">
+        insert into setting
+        (param_name, param_value, admin_id,
+         create_time, setting_id)
+        values (#{paramName}, #{paramValue}, #{adminId},
+                #{createTime}, #{settingId})
+    </insert>
+
+    <select id="listSetting" parameterType="map" resultMap="settingMap">
+        select *
+        from setting
+        order by ids desc
+            limit #{size}
+        offset #{offset}
+    </select>
+
+    <select id="getSetting" parameterType="map" resultMap="settingMap">
+        select *
+        from setting
+        where 1=1
+        <choose>
+            <when test="settingId!=null">
+                and setting_id = #{settingId}
+            </when>
+        </choose>
+        <choose>
+            <when test="paramName!=null">
+                and param_name = #{paramName}
+            </when>
+        </choose>
+    </select>
+
+    <update id="updateSetting" parameterType="map">
+        update setting
+        <set>
+            <if test="paramName!=null">
+                param_name=#{paramName},
+            </if>
+            <if test="paramValue!=null">
+                param_value=#{paramValue}
+            </if>
+        </set>
+        where setting_id=#{settingId}
+    </update>
+
+    <delete id="deleteSetting" parameterType="map">
+        delete
+        from setting
+        where setting_id = #{settingId}
+    </delete>
+</mapper>
