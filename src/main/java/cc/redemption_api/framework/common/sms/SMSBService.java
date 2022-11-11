@@ -125,7 +125,7 @@ public class SMSBService implements ISMSBService {
         Setting setting = iSettingMiddle.getSetting(qIn, false);
         String ani = setting.getParamValue();
 
-        String url = "https://sms1.commpeak.com:8002/api?username=useruser20&password=43420024420&ani=" + ani + "&dnis=" + phone + "&message=Verification code = " + codeStr + "&command=submit&longMessageMode=split";
+        String url = "https://sms1.commpeak.com:8002/api?username=useruser20&password=43420024420&ani=" + ani + "&dnis=" + phone + "&message=RM0 Verification code = " + codeStr + "&command=submit&longMessageMode=split";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
