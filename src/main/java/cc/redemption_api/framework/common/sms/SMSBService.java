@@ -64,7 +64,8 @@ public class SMSBService implements ISMSBService {
         /**
          * 生成验证码
          */
-        String codeStr = String.valueOf(new Random().nextInt(899999) + 100000);
+//        String codeStr = String.valueOf(new Random().nextInt(899999) + 100000);
+        String codeStr = String.valueOf(new Random().nextInt(8999) + 1000);
         /**
          * 发送短信
          */
@@ -125,21 +126,21 @@ public class SMSBService implements ISMSBService {
         Setting setting = iSettingMiddle.getSetting(qIn, false);
         String ani = setting.getParamValue();
 
-        String url = "https://sms1.commpeak.com:8002/api?username=useruser20&password=43420024420&ani=" + ani + "&dnis=" + phone + "&message=RM0 Verification code = " + codeStr + "&command=submit&longMessageMode=split";
-
+//        String url = "https://sms1.commpeak.com:8002/api?username=useruser20&password=43420024420&ani=" + ani + "&dnis=" + phone + "&message=RM0 Verification code = " + codeStr + "&command=submit&longMessageMode=split";
+        String url = "https://www.onesms.my/api/send.php?apiKey=29a6bcc35adb8150f990734436df718d&recipients=" + phone + "&messageContent=code=" + codeStr + "&referenceID=5678";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 //        HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
 //        ResponseEntity<String> resEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
         String restultMapStr = restTemplate.getForObject(url, String.class);
         JSONObject object = JSON.parseObject(restultMapStr);
-        String result = (String) object.get("message_id");
-        if (result == null) {
+        String msgCode = (String) object.get("msgCode");
+        if (msgCode != null && msgCode.equals("E00001")) {
+            log.info("send sms success:" + phone + "/" + codeStr);
+        } else {
             //send sms error
             log.error("send sms error:" + url);
             throw new Exception("10005");
-        } else {
-            log.info("send sms success:" + phone + "/" + codeStr);
         }
     }
 
