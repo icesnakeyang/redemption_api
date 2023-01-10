@@ -186,6 +186,7 @@ public class AdminMaintenanceController {
             String token = httpServletRequest.getHeader("token");
             in.put("token", token);
             in.put("settingId", request.getSettingId());
+            in.put("paramName", request.getParamName());
 
             Map out = iAdminMaintenanceBService.getSetting(in);
             response.setData(out);

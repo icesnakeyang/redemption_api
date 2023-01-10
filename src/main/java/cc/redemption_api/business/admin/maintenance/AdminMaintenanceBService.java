@@ -126,14 +126,16 @@ public class AdminMaintenanceBService implements IAdminMaintenanceBService {
     @Override
     public Map getSetting(Map in) throws Exception {
         String token = in.get("token").toString();
-        String settingId = in.get("settingId").toString();
+        String settingId = (String) in.get("settingId");
+        String paramName = (String) in.get("paramName");
 
         Map qIn = new HashMap();
         qIn.put("token", token);
         AdminView adminView = iAdminMiddle.getAdmin(qIn, false);
 
         qIn = new HashMap();
-        qIn.put("settingI", settingId);
+        qIn.put("settingId", settingId);
+        qIn.put("paramName", paramName);
         Setting setting = iSettingMiddle.getSetting(qIn, false);
 
         Map out = new HashMap();
