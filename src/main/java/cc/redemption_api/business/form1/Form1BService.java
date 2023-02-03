@@ -7,6 +7,7 @@ import cc.redemption_api.meta.user.entity.UserBase;
 import cc.redemption_api.meta.user.entity.UserView;
 import cc.redemption_api.middle.IUserMiddle;
 import cc.redemption_api.middle.survey.ISurveyMiddle;
+import org.apache.coyote.http11.filters.SavedRequestInputFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,12 +32,13 @@ public class Form1BService implements IForm1BService {
         String icNumber1 = in.get("icNumber1").toString();
         String icNumber2 = in.get("icNumber2").toString();
         String icNumber3 = in.get("icNumber3").toString();
-        String phoneF1 = in.get("phoneF1").toString();
-        String phoneF2 = in.get("phoneF2").toString();
+        String phoneF1 =(String) in.get("phoneF1").toString();
+        String phoneF2 = (String) in.get("phoneF2").toString();
         String address = in.get("address").toString();
         String postcode = in.get("postcode").toString();
         String email = in.get("email").toString();
         ArrayList surveys = (ArrayList) in.get("surveys");
+        String phone=(String)in.get("phone");
 
         Map qIn = new HashMap();
         qIn.put("icNumber", icNumber1 + icNumber2 + icNumber3);
@@ -55,8 +57,9 @@ public class Form1BService implements IForm1BService {
             userBase.setUserName(userName);
             userBase.setEmail(email);
             userBase.setPostcode(postcode);
-            userBase.setPhone(phoneF1 + phoneF2);
+//            userBase.setPhone(phoneF1 + phoneF2);
             userBase.setPhone1(phoneF1);
+            userBase.setPhone(phone);
             userBase.setPhone2(phoneF2);
             userBase.setCreateTime(new Date());
             iUserMiddle.createUserBase(userBase);

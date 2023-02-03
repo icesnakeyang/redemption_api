@@ -55,6 +55,8 @@ public class Form1Controller {
             in.put("address", request.getAddress());
             in.put("postcode", request.getPostcode());
             in.put("email", request.getEmail());
+            in.put("phone", request.getPhone());
+
             in.put("surveys", request.getSurveys());
 
             iForm1BService.saveForm1(in);

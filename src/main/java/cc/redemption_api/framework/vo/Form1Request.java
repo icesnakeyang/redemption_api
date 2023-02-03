@@ -16,4 +16,5 @@ public class Form1Request {
     private String postcode;
     private String email;
     private ArrayList surveys;
+    private String phone;
 }
