@@ -29,28 +29,29 @@ public class Form1BService implements IForm1BService {
     @Override
     public void saveForm1(Map in) throws Exception {
         String userName = in.get("userName").toString();
-        String icNumber1 = in.get("icNumber1").toString();
-        String icNumber2 = in.get("icNumber2").toString();
-        String icNumber3 = in.get("icNumber3").toString();
-        String phoneF1 =(String) in.get("phoneF1").toString();
-        String phoneF2 = (String) in.get("phoneF2").toString();
+        String icNumber = (String) in.get("icNumber");
+        String icNumber1 = (String) in.get("icNumber1");
+        String icNumber2 = (String) in.get("icNumber2");
+        String icNumber3 = (String) in.get("icNumber3");
+        String phoneF1 = (String) in.get("phoneF1");
+        String phoneF2 = (String) in.get("phoneF2");
         String address = in.get("address").toString();
         String postcode = in.get("postcode").toString();
         String email = in.get("email").toString();
         ArrayList surveys = (ArrayList) in.get("surveys");
-        String phone=(String)in.get("phone");
+        String phone = (String) in.get("phone");
 
         Map qIn = new HashMap();
         qIn.put("icNumber", icNumber1 + icNumber2 + icNumber3);
-        UserView userView = iUserMiddle.getUserBase(qIn, true);
+//        UserView userView = iUserMiddle.getUserBase(qIn, true);
 
-        if (userView == null) {
+//        if (userView == null) {
             UserBase userBase = new UserBase();
             userBase.setUserId(GogoTools.UUID32());
             userBase.setAddress(address);
             userBase.setEmail(email);
-            String ic = icNumber1 + icNumber2 + icNumber3;
-            userBase.setICNumber(ic);
+//            String ic = icNumber1 + icNumber2 + icNumber3;
+            userBase.setICNumber(icNumber);
             userBase.setIc1(icNumber1);
             userBase.setIc2(icNumber2);
             userBase.setIc3(icNumber3);
@@ -82,12 +83,12 @@ public class Form1BService implements IForm1BService {
                     iSurveyMiddle.createSurveyAnswer(surveyAnswer);
                 }
             }
-        } else {
+//        } else {
             /**
              * 当前用户已经填过调查表了
              */
-            throw new Exception("10007");
-        }
+//            throw new Exception("10007");
+//        }
     }
 
     @Override

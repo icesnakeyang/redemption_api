@@ -47,6 +47,7 @@ public class Form1Controller {
         Map in = new HashMap();
         try {
             in.put("userName", request.getUserName());
+            in.put("icNumber", request.getIcNumber());
             in.put("icNumber1", request.getIcNumber1());
             in.put("icNumber2", request.getIcNumber2());
             in.put("icNumber3", request.getIcNumber3());
